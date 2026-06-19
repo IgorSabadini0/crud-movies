@@ -37,7 +37,7 @@
                 <p class="text-sm text-slate-400 mt-1">Gerencie seu catálogo pessoal de filmes favoritos.</p>
             </div>
 
-            <a href="#" class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm px-5 py-3 rounded-xl shadow-lg shadow-indigo-600/20 active:scale-[0.98] transition-all duration-200 cursor-pointer">
+            <a href="/filmes/create" class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm px-5 py-3 rounded-xl shadow-lg shadow-indigo-600/20 active:scale-[0.98] transition-all duration-200 cursor-pointer">
                 <i class="fa-solid fa-plus text-xs"></i> Adicionar Filme
             </a>
         </div>
@@ -105,7 +105,7 @@
                     <p class="text-slate-500 mt-1.5 text-xs leading-relaxed">
                         Sua lista está limpa no momento. Adicione os seus filmes favoritos para começar a organizar seu catálogo!
                     </p>
-                    <a href="#" class="inline-flex items-center gap-2 mt-5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-medium text-xs px-4 py-2.5 rounded-xl border border-slate-700/60 transition-all cursor-pointer">
+                    <a href="/filmes/create" class="inline-flex items-center gap-2 mt-5 bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white font-medium text-xs px-4 py-2.5 rounded-xl border border-slate-700/60 transition-all cursor-pointer">
                         <i class="fa-solid fa-plus"></i> Cadastrar o Primeiro
                     </a>
                 </div>

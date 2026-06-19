@@ -2,64 +2,83 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Filme;
 use Illuminate\Http\Request;
+use App\Models\Filme;
 
 class FilmeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $filmes = Filme::all();
+        return view("index", ["filmes" => $filmes, "busca" => null]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view("create");
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        // Pegando apenas o Título e a Descrição do formulário
+        $dados = $request->only(['titulo', 'descricao']);
+        
+        if ($request->hasFile("imagem")) {
+            $pasta = public_path("images/filmes");
+            if (!is_dir($pasta)) {
+                mkdir($pasta, 0755, true);
+            }
+
+            $imagem = $request->file("imagem");
+            $nomeImagem = time() . "_" . $imagem->getClientOriginalName();
+            $imagem->move($pasta, $nomeImagem);
+            $dados['imagem'] = "images/filmes/" . $nomeImagem;    
+        }
+        
+        Filme::create($dados);
+        
+        return redirect()->to("/filmes")->with("sucesso", "Filme criado com sucesso!");
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Filme $filme)
-    {
-        //
+    public function buscar(Request $request) {
+        $busca = $request->input("busca", "");
+
+        if (empty($busca)) {
+            return redirect()->to("/filmes");
+        }
+
+        $filmes = Filme::where("titulo", "like", "%$busca%")->get();
+
+        return view("index", ["filmes" => $filmes, "busca" => $busca]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Filme $filme)
-    {
-        //
+    public function deletar($id) {
+        $filme = Filme::findOrFail($id);
+        $filme->delete();
+        return redirect()->to("/filmes")->with("sucesso", "Filme deletado com sucesso!");
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Filme $filme)
-    {
-        //
+    public function edit($id) {
+        $filme = Filme::findOrFail($id);
+        return view("edit", ["filme" => $filme]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Filme $filme)
-    {
-        //
+    public function update(Request $request, $id) {
+        $filme = Filme::findOrFail($id);
+
+        $dados = $request->only(['titulo', 'descricao']);
+
+        if ($request->hasFile("imagem")) {
+            $pasta = public_path("images/filmes");
+            $extensaoImagem = $request->file("imagem")->getClientOriginalExtension();
+            $nomeImagem = uniqid() . "." . $extensaoImagem;
+
+            $dados['imagem'] = "images/filmes/" . $nomeImagem;
+
+            $request->file("imagem")->move(public_path("images/filmes"), $nomeImagem);
+        }
+
+        $filme->update($dados);
+        
+        return redirect()->to("/filmes")->with("sucesso", "Filme atualizado com sucesso!");
     }
 }

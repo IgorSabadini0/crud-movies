@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('filmes', function (Blueprint $table) {
             $table->id();
             $table->string("titulo");
-            $table->string("descricao");
+            $table->text("descricao"); // Usar text para descrições mais longas (acima de 255 caracteres)
             $table->string("imagem");
             $table->timestamps();
         });
